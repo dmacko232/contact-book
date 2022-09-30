@@ -13,6 +13,7 @@ INVALID_COMMAND = 4
 
 
 def parse_create_contact(line: str) -> Optional[CreateContact]:
+    """Parse create contact class (without id) from given line of text."""
     
     line = line.strip().split(", ")
     if len(line) != 4:
@@ -21,6 +22,7 @@ def parse_create_contact(line: str) -> Optional[CreateContact]:
 
 
 def parse_contact(line: str) -> Optional[Contact]:
+    """Parse contact from given line of text."""
     
     line = line.strip().split(", ")
     if len(line) != 5:
@@ -29,6 +31,7 @@ def parse_contact(line: str) -> Optional[Contact]:
 
 
 def parse_id(line: str) -> Optional[int]:
+    """Parse id from given line of text."""
 
     line = line.strip()
     try:
@@ -38,6 +41,7 @@ def parse_id(line: str) -> Optional[int]:
 
 
 def parse_command(line: str) -> int:
+    """Parse command from given line of text."""
 
     line = line.strip().upper()
     if line == "CREATE":
@@ -52,6 +56,7 @@ def parse_command(line: str) -> int:
 
 
 def read_command() -> int:
+    """Read command from input by user."""
     
     line = input("Please input one of the four commands below {CREATE, LIST, UPDATE, DELETE}:\n")
     command = parse_command(line)
@@ -62,6 +67,7 @@ def read_command() -> int:
 
 
 def handle_command(conn: sqlite3.Connection, command: int) -> None:
+    """Handle given command by performing the IO command operation."""
 
     if command == CREATE_COMMAND:
         create_contact_command(conn)
@@ -74,6 +80,7 @@ def handle_command(conn: sqlite3.Connection, command: int) -> None:
 
 
 def create_contact_command(conn: sqlite3.Connection) -> None:
+    """Perform the IO create contact command."""
 
     while True:
         line = input('Input contact data (name, address, phone_number, email) separated ", ".\n')
@@ -86,12 +93,14 @@ def create_contact_command(conn: sqlite3.Connection) -> None:
 
 
 def list_contacts_command(conn: sqlite3.Connection) -> None:
+    """Perform the IO list contact command."""
 
     contacts = read_contacts(conn)
     print_contacts(contacts)
 
 
 def update_contact_command(conn: sqlite3.Connection) -> None:
+    """Perform the IO update contact command."""
 
     ids = set(contact.id for contact in read_contacts(conn))
     while True:
@@ -108,6 +117,7 @@ def update_contact_command(conn: sqlite3.Connection) -> None:
 
 
 def delete_contact_command(conn: sqlite3.Connection) -> None:
+    """Perform the IO delete contact command."""
 
     ids = set(contact.id for contact in read_contacts(conn))
     while True:
@@ -121,6 +131,7 @@ def delete_contact_command(conn: sqlite3.Connection) -> None:
 
 
 def print_contacts(contacts: List[Contact]) -> None:
+    """Pretty print contacts."""
 
     print(f"id\tname\taddress\tphone\temail")
     for c in contacts:

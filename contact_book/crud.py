@@ -5,6 +5,7 @@ from contact_book.model import Contact, CreateContact
 
 
 def create_contact(conn: sqlite3.Connection, contact: CreateContact) -> None:
+    """Creates contact in database specified by connection."""
     
     with conn:
         conn.execute(
@@ -14,12 +15,14 @@ def create_contact(conn: sqlite3.Connection, contact: CreateContact) -> None:
 
 
 def read_contacts(conn: sqlite3.Connection) -> List[Contact]:
+    """Reads all contacts in database specified by connection."""
     
     res = conn.execute("SELECT * FROM contacts;")
     return [Contact(*t) for t in res.fetchall()]
 
 
 def update_contact(conn: sqlite3.Connection, contact: Contact) -> None:
+    """Updates a contact in database specified by connection."""
     
     with conn:
         conn.execute(
@@ -35,6 +38,7 @@ def update_contact(conn: sqlite3.Connection, contact: Contact) -> None:
 
 
 def delete_contact(conn: sqlite3.Connection, id: int) -> None:
-    
+    """Deletes a contact with given id in database specified by connection."""
+
     with conn:
         conn.execute("DELETE FROM contacts WHERE id=?;", (id,))

@@ -3,6 +3,7 @@ from typing import Optional
 
 
 def create_table(conn: sqlite3.Connection) -> None:
+    """Creates table in database specified by given connection."""
 
     with conn:
         conn.execute(
